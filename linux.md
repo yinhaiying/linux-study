@@ -46,6 +46,94 @@ root@haiying:/home/blog# ls
 app  blog-data  shared  #所有与blog相关的内容都放到这个目录下
 ```
 
+## 常用的目录基本命令
+
+#### 目录管理
+
+**ls：查看目录**
+
+```shell
+# ls 查看目录
+-a(all):查看全部文件，包括隐藏文件。
+-l:列出所有文件，包含文件的属性和权限，但是不包括隐藏文件。
+-al:所有的linux参数可以同时使用。查看包括隐藏文件的所有文件。包括属性和权限
+```
+
+**cd：切换目录**
+
+```shell
+# cd + 目录名（绝对路径都是以/开头，相对路径.或者..开头）
+```
+
+**pwd：显示当前用户所在的目录**
+
+```shell
+# pwd  显示当前用户所在的目录
+root@haiying:/home/blog# pwd
+/home/blog
+```
+
+**mkdir：创建一个目录**
+
+```shell
+# mkdir 创建目录
+-p：递归创建多级目录
+root@haiying:/home# mkdir -p test/test2/test3   #创建多级目录
+root@haiying:/home# ls
+blog  haiying  test
+root@haiying:/home# cd test
+root@haiying:/home/test# ls
+test2
+```
+
+**rmdir：删除目录**
+
+```shell
+# rmdir + 目录名   只能删除没有子目录的目录
+-p +多级目录名    # 递归删除多级目录 
+root@haiying:/home# rmdir -p test/test2/test3
+```
+
+**cp：复制文件或者目录**
+
+```shell
+# cp 原来的地方  新的地方
+# 拷贝文件
+root@haiying:/home/test# cp hello.md /home/test2  拷贝hello.md到test目录
+# 拷贝目录 cp -r A/* B 拷贝A文件夹下的所有非隐藏文件到B文件夹 
+root@haiying:/home# cp -r /home/test/* /home/test2
+root@haiying:/home# ls
+blog  haiying  test  test2
+```
+
+**rm：移除目录或者文件**
+
+```shell
+rmdir:只能移除目录
+rm:移除文件或者目录
+# 参数：
+-f(force):强制删除。忽视警告
+-r(reverse):递归删除。
+-rf:强制删除所有文件。非常危险。（rm -rf /会删除根目录下的所有文件，也就是常见的删库跑路）
+-i:互动，删除时进行询问。
+```
+
+**mv：移动文件或者目录**
+
+```shell
+# mv 原来的目录  新的目录
+-f：强制移动
+-u:只替换已经更新过的文件
+# 重命名
+mv test test2 # 将当前目录下的test重命名为test2
+```
+
+
+
+
+
+
+
 
 
 
