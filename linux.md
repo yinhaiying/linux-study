@@ -2,8 +2,8 @@
 
 ## 目录结构
 
-1. Linux中一切皆文件
-2. 根目录root ,/，所有的文件都挂载在这个节点下
+1. Linux 中一切皆文件
+2. 根目录 root ,/，所有的文件都挂载在这个节点下
 
 ```shell
 # 命令 ls /
@@ -90,7 +90,7 @@ test2
 
 ```shell
 # rmdir + 目录名   只能删除没有子目录的目录
--p +多级目录名    # 递归删除多级目录 
+-p +多级目录名    # 递归删除多级目录
 root@haiying:/home# rmdir -p test/test2/test3
 ```
 
@@ -100,7 +100,7 @@ root@haiying:/home# rmdir -p test/test2/test3
 # cp 原来的地方  新的地方
 # 拷贝文件
 root@haiying:/home/test# cp hello.md /home/test2  拷贝hello.md到test目录
-# 拷贝目录 cp -r A/* B 拷贝A文件夹下的所有非隐藏文件到B文件夹 
+# 拷贝目录 cp -r A/* B 拷贝A文件夹下的所有非隐藏文件到B文件夹
 root@haiying:/home# cp -r /home/test/* /home/test2
 root@haiying:/home# ls
 blog  haiying  test  test2
@@ -128,13 +128,98 @@ rm:移除文件或者目录
 mv test test2 # 将当前目录下的test重命名为test2
 ```
 
+#### 文件属性
 
+##### 文件属性
 
+Linux 系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。为了保护系统的安全性，Linux 系统
+对不同的的用户访问同一文件（包括目录文件）的权限做了不同的规定。
+在 Linux 中我们可以使用`ll`或者`ls -l`来显示一个文件的属性以及文件所属的用户和组，如：
 
+```shell
+root@haiying:/# ll
+total 970068
+drwxr-xr-x   2 root root      4096 Jun 18 09:58 bin/
+drwxr-xr-x   3 root root      4096 Jun 18 10:04 boot/
+drwxr-xr-x  18 root root      3740 Aug  9 18:02 dev/
+lrwxrwxrwx   1 root root        34 Jun 18 09:58 initrd.img -> boot/initrd.img-4.15.0-106-generic
+...
+```
 
+每个文件的属性由一下几个部分来确定（如下图）
+![](https://imgkr2.cn-bj.ufileos.com/9be23ba0-1432-4892-a187-79658cfca4fb.png?UCloudPublicKey=TOKEN_8d8b72be-579a-4e83-bfd0-5f6ce1546f13&Signature=jE9KqJv9oX34qmGF4%252Bj31dp34wk%253D&Expires=1597820802)
 
+每个文件的属性由左边第一部分的**10**个字符来确定：
 
+**文件类型**
 
+其中第一个字符用来描述文件类型：
 
+实例中，/bin 的第一个属性用 d 表示。d 在 Linux 中代表该文件是一个目录文件。
+在 Linux 中第一个字符代表这个文件是目录，文件或者链接文件等等。
 
+```shell
+# 参数解释
+[d]:目录
+[-]:普通文件
+[l]:链接文档(link file)，类似于windows中的快捷方式
+```
+
+接下来的字符中，以 3 个为一组，且均为【rwx】的三个参数组合，顺序也是 rwx。其中，
+
+[r]：代表可读(read)
+
+[w]：代表可写(write)
+
+[x]：代表可执行(execute)
+
+[-]：表示没有该权限
+
+其中第一组（1-3 位）确定**属主**（该文件的所有者）拥有该文件的权限。
+
+第二组（4-6 位）确定**属组**（所有者的同组用户）拥有该文件的权限。
+
+第三组（7-9 位）确定**其他用户**拥有该文件的权限。
+
+##### 修改属性
+
+**chgrp：修改文件属组**（很少使用）
+
+```shell
+# chgrp(change group) [-R] 属组名 文件名
+```
+
+**chown：更改文件属主，也可以同时更改文件属组**
+
+```shell
+# chown [–R] 属主名 文件名
+# chown [-R] 属主名：属组名 文件名
+```
+
+**chmod：更改9个文件属性（非常重要）**
+
+```shell
+# chmod [-R] xyz 文件或者目录名
+```
+
+Linux文件属性有两种设置方式，一种是数字，一种是符号。
+
+```shell
+# r:4  w:2  x:1  -:0    
+# 可读可写可执行      rwx = 4+2+1=7  最大的权限就是777  chmod  777 + filename
+# 可读可写不可执行    rw- = 4+2+0 = 6
+
+```
+
+每种身份(owner/group/others)各自的权限是累加的，例如当权限为：[-rwxrwx---]则代表：
+
+owner=rwx=4+2+1=7
+
+group=rwx=4+2+1=7
+
+others=---=0+0+0=0
+
+因此，该文件的权限数字就是770。
+
+![chmod](https://imgkr2.cn-bj.ufileos.com/76b24313-5315-4f3e-b991-bedf962ae0b6.png?UCloudPublicKey=TOKEN_8d8b72be-579a-4e83-bfd0-5f6ce1546f13&Signature=65A1u2lqkl3iPNpmLgVdYyqfDSM%253D&Expires=1597823175)
 
