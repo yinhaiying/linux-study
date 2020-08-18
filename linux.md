@@ -48,7 +48,7 @@ app  blog-data  shared  #所有与blog相关的内容都放到这个目录下
 
 ## 常用的目录基本命令
 
-#### 目录管理
+### 目录管理
 
 **ls：查看目录**
 
@@ -128,9 +128,9 @@ rm:移除文件或者目录
 mv test test2 # 将当前目录下的test重命名为test2
 ```
 
-#### 文件属性
+### 文件属性
 
-##### 文件属性
+#### 文件属性
 
 Linux 系统是一种典型的多用户系统，不同的用户处于不同的地位，拥有不同的权限。为了保护系统的安全性，Linux 系统
 对不同的的用户访问同一文件（包括目录文件）的权限做了不同的规定。
@@ -181,7 +181,7 @@ lrwxrwxrwx   1 root root        34 Jun 18 09:58 initrd.img -> boot/initrd.img-4.
 
 第三组（7-9 位）确定**其他用户**拥有该文件的权限。
 
-##### 修改属性
+#### 修改属性
 
 **chgrp：修改文件属组**（很少使用）
 
@@ -222,4 +222,65 @@ others=---=0+0+0=0
 因此，该文件的权限数字就是770。
 
 ![chmod](https://imgkr2.cn-bj.ufileos.com/76b24313-5315-4f3e-b991-bedf962ae0b6.png?UCloudPublicKey=TOKEN_8d8b72be-579a-4e83-bfd0-5f6ce1546f13&Signature=65A1u2lqkl3iPNpmLgVdYyqfDSM%253D&Expires=1597823175)
+
+#### 文件内容查看
+
+Linux中使用以下命令来查看文件的内容：
+
+```shell
+# cat:由第一行开始显示文件内容
+# tac:从最后一行开始显示文件内容(tac是cat的倒写)
+# nl:显示的时候，同时输出行号
+# more:一页一页地显示文件内容
+# less:与more类似，但是比more更好的是，它可以往前翻页
+# head:只看头几行
+# tail:只看最后几行
+```
+
+以`custom.d.ts`文件的查看为例，介绍几个常用的查看命令：
+
+**使用cat查看(最常使用)**
+
+```shell
+root@haiying:/home/blog/app# cat custom.d.ts
+type Post = {
+  id: string;
+  date: string;
+  title: string;
+  content: string;
+  htmlContent: string;
+}
+
+```
+
+**使用nl查看(显示行号)**
+
+```shell
+root@haiying:/home/blog/app# nl custom.d.ts
+     1  //
+     2  type Post = {
+     3    id: string;
+     4    date: string;
+     5    title: string;
+     6    content: string;
+     7    htmlContent: string;
+     8  }
+```
+
+**使用more翻页查看(空格代表翻页，但是只能往下翻页不能再返回网上翻页，enter代表向下看一行)**
+
+```shell
+root@haiying:/home/blog/app# more tsconfig.json  more命令通常是需要配合空格和enter键使用
+```
+
+**使用less上下翻页查看**
+
+```shell
+root@haiying:/home/blog/app# less tsconfig.json
+# less tsconfig.json
+# 空格代表翻页
+# 上下箭头代表前后查看
+# enter查看下一行
+# 结束查看之后不会自动退出,使用q命令进行退出
+```
 
